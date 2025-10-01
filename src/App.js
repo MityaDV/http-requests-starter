@@ -21,12 +21,12 @@ function App() {
 
   const [jokes, setJokes] = useState([]);
 
-  const fetchJokesHandler = () => {
-    fetch('https://official-joke-api.appspot.com/random_ten')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => setJokes(data));
+  const fetchJokesHandler = async () => {
+    const response = await fetch(
+      'https://official-joke-api.appspot.com/random_ten'
+    );
+    const data = await response.json();
+    setJokes(data);
   };
 
   return (
