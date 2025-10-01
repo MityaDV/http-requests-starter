@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import Joke from "./Joke";
-import styles from "./JokeList.module.css";
+import Joke from './Joke';
+import styles from './JokeList.module.css';
 
 const JokeList = (props) => {
   return (
-    <ul className={styles["joke-list"]}>
+    <ul className={styles['joke-list']}>
       {props.jokes.map((joke) => (
         <Joke
           key={joke.id}
