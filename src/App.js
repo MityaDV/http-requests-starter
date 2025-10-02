@@ -30,14 +30,23 @@ function App() {
 
     try {
       const response = await fetch(
-        'https://react-cours-http-3ee12-default-rtdb.firebaseio.com/'
+        'https://react-cours-http-3ee12-default-rtdb.firebaseio.com/jokes.json'
       );
       if (!response.ok) {
         throw new Error('Failed to fetch jokes.');
       }
       const data = await response.json();
 
-      setJokes(data);
+      const loadedJokes = [];
+      for (const key in data) {
+        loadedJokes.push({
+          id: key,
+          type: data[key].type,
+          setup: data[key].setup,
+          punchline: data[key].punchline
+        });
+      }
+      setJokes(loadedJokes);
     } catch (e) {
       setError(e.message);
     }
@@ -48,13 +57,22 @@ function App() {
     fetchJokesHandler();
   }, [fetchJokesHandler]);
 
-  const addJokeHandler = (joke) => {
-    console.log(joke);
+  const addJokeHandler = async (joke) => {
+    const res = await fetch(
+      'https://react-cours-http-3ee12-default-rtdb.firebaseio.com/jokes.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(joke),
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+    const data = await res.json();
+    console.log(data);
   };
 
   let content = <p>Шуток не найдено.</p>;
 
-  if (jokes.length > 0) {
+  if (jokes !== null && jokes !== undefined && jokes.length > 0) {
     content = <JokeList jokes={jokes} />;
   }
 
